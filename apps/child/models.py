@@ -9,6 +9,15 @@ class Child(models.Model):
         ('2', 'Женский'),
         ('4', 'Другое'),
     )
+    WEEKDAY_CHOICE = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+        ('6', '6'),
+        ('7', '7'),
+    )
     first_name = models.CharField(
         max_length=150,
     )
@@ -43,7 +52,11 @@ class Child(models.Model):
     diagnosis = models.CharField(
         max_length=150,
     )
-    visit_date_time = models.DateTimeField()
+    visit_weekday = models.CharField(
+        max_length=15,
+        choices=WEEKDAY_CHOICE,
+    )
+    visit_time = models.TimeField()
     exercises = models.TextField()
     employee = models.ForeignKey(
         User,
