@@ -20,5 +20,5 @@ class IsOwner(IsAuthenticated):
 
     def has_object_permission(self, request, view, obj):
         if request.user:
-            return obj.owner == request.user
+            return obj.id == request.user.id
         return False

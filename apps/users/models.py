@@ -5,6 +5,7 @@ from apps.users.managers import MyUserManager
 
 
 class User(AbstractUser):
+    username = None
     alias = models.CharField(
         max_length=255,
         unique=True,

@@ -1,4 +1,5 @@
-from rest_framework import generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.users.models import User
@@ -12,10 +13,16 @@ class UserViewSet(ModelViewSet):
     """
     queryset = User.objects
     serializer_class = UserSerializer
+    permission_classes_by_action = {
+        'list': [IsAdmin],
+        'create': [IsAdmin],
+        'retrieve': [IsAdmin | IsOwner],
+        'update': [IsAdmin],
+        'delete': [IsAdmin],
+    }
 
     def get_permissions(self):
-        if self.request.method in ['retrieve']:
-            self.permission_classes = [IsAdmin() | IsOwner()]
-            return self.permission_classes
-        self.permission_classes = [IsAdmin()]
-        return self.permission_classes
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
