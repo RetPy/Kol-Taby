@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if validated_data['password'] != validated_data['confirm_password']:
             raise serializers.ValidationError('Passwords are not same')
-        user = User(alias=validated_data['alias'])
+        user = super().create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
