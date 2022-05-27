@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from core.jwt import CustomTokenObtainPairView
+from core.myjwt import CustomTokenObtainPairView
 
 schema_view = get_schema_view(
     openapi.Info(
