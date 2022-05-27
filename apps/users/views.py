@@ -11,7 +11,7 @@ class UserViewSet(ModelViewSet):
     """
     CRUD для Админа
     """
-    queryset = User.objects
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes_by_action = {
         'list': [IsAdmin],
