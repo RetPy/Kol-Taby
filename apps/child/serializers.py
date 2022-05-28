@@ -30,7 +30,16 @@ class ChildSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(
+        read_only=True
+    )
 
     class Meta:
         model = Answer
-        fields = '__all__'
+        fields = [
+            'id',
+            'date',
+            'employee',
+            'child',
+            'quiz',
+        ]

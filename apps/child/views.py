@@ -26,3 +26,6 @@ class AnswerViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['employee', 'child', 'date']
+
+    def perform_create(self, serializer):
+        serializer.save(employee=self.request.user)

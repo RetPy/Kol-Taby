@@ -3,7 +3,6 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.generics import GenericAPIView
 from rest_framework import viewsets
 
-from apps.users.models import User
 from apps.users.serializers import *
 from apps.users.permissions import IsAdmin, IsOwner
 
@@ -12,7 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     CRUD для Админа
     """
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_staff=False)
     serializer_class = UserSerializer
     permission_classes_by_action = {
         'list': [IsAdmin],
