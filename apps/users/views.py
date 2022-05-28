@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.generics import GenericAPIView
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 
 from apps.users.serializers import *
 from apps.users.permissions import IsAdmin, IsOwner
@@ -51,3 +51,21 @@ class CurrentUser(GenericAPIView):
                 })
             except Exception as ex:
                 return Response({'error': f'{ex}'})
+
+
+class CheckAliasAPIView(GenericAPIView):
+    """
+    Проверка на существование заданного имени пользователя
+    """
+    serializer_class = CheckAliasSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = CheckAliasSerializer(data=self.request.data)
+        if serializer.is_valid():
+            alias = serializer.validated_data['alias']
+            try:
+                User.objects.get(alias=alias)
+                return Response({'result': False})
+            except:
+                return Response({"result": True})
+        return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)

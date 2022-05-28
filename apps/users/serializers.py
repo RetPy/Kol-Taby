@@ -40,3 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CurrentUserSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=1000)
+
+
+class CheckAliasSerializer(serializers.Serializer):
+    alias = serializers.CharField()
