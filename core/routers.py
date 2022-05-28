@@ -1,6 +1,7 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from apps.users.views import UserViewSet
+from apps.users.views import UserViewSet, CurrentUser
 from apps.child.views import ChildViewSet, AnswerViewSet
 
 router = DefaultRouter()
@@ -21,3 +22,6 @@ router.register(
 )
 
 urlpatterns = router.urls
+urlpatterns += [
+    path('current-user/', CurrentUser.as_view()),
+]

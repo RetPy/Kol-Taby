@@ -1,16 +1,35 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from apps.child.models import Child, Answer
+from apps.users.models import User
 
 
-class ChildSerializer(ModelSerializer):
+class ChildSerializer(serializers.ModelSerializer):
+    employee = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(is_staff=False), allow_null=True)
 
     class Meta:
         model = Child
-        fields = '__all__'
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'patronymic',
+            'birthday',
+            'parents_fio',
+            'gender',
+            'parents_phone_number',
+            'parents_email',
+            'address',
+            'diagnosis',
+            'visit_weekday',
+            'visit_time',
+            'exercises',
+            'employee',
+            'questions',
+        ]
 
 
-class AnswerSerializer(ModelSerializer):
+class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
