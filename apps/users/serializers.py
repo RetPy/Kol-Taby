@@ -37,6 +37,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def update(self, instance, validated_data):
+        if validated_data['password'] != validated_data['confirm_password']:
+            raise serializers.ValidationError('Passwords are not same')
+        instance.set_password(validated_data['confirm_password'])
+        instance.save()
+        return instance
+
 
 class CurrentUserSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=1000)
@@ -44,3 +51,21 @@ class CurrentUserSerializer(serializers.Serializer):
 
 class CheckAliasSerializer(serializers.Serializer):
     alias = serializers.CharField()
+
+
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    confirm_password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'password',
+            'confirm_password'
+        ]
+
+    def update(self, instance, validated_data):
+        if validated_data['password'] != validated_data['confirm_password']:
+            raise serializers.ValidationError('Passwords are not same')
+        instance.set_password(validated_data['confirm_password'])
+        instance.save()
+        return instance

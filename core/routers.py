@@ -23,6 +23,7 @@ router.register(
 
 urlpatterns = router.urls
 urlpatterns += [
+    path('users/<int:pk>/change_password/', UserChangePasswordView.as_view()),
     path('current-user/', CurrentUser.as_view()),
     path('check-alias/', CheckAliasAPIView.as_view()),
 ]

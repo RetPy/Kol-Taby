@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 from rest_framework import viewsets, status
 
 from apps.users.serializers import *
@@ -28,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return [permission() for permission in self.permission_classes]
 
 
-class CurrentUser(GenericAPIView):
+class CurrentUser(generics.GenericAPIView):
     serializer_class = CurrentUserSerializer
 
     def post(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class CurrentUser(GenericAPIView):
                 return Response({'error': f'{ex}'})
 
 
-class CheckAliasAPIView(GenericAPIView):
+class CheckAliasAPIView(generics.GenericAPIView):
     """
     Проверка на существование заданного имени пользователя
     """
@@ -69,3 +69,9 @@ class CheckAliasAPIView(GenericAPIView):
             except:
                 return Response({"result": True})
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UserChangePasswordView(generics.UpdateAPIView):
+    queryset = User.objects.filter(is_staff=False)
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAdmin]
