@@ -85,8 +85,10 @@ class Answer(models.Model):
     )
     employee = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='answer_employee',
+        null=True,
+        blank=True,
     )
     child = models.ForeignKey(
         Child,
