@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework import viewsets, status
 
 from apps.users.serializers import *
-from apps.users.permissions import IsAdmin, IsOwner
+from utils.permissions import IsAdmin, IsCurrentUser
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,7 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
         'list': [IsAdmin],
         'create': [IsAdmin],
-        'retrieve': [IsAdmin | IsOwner],
+        'retrieve': [IsAdmin | IsCurrentUser],
         'update': [IsAdmin],
         'delete': [IsAdmin],
     }

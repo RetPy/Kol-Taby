@@ -2,7 +2,8 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from apps.users.views import *
-from apps.child.views import ChildViewSet, AnswerViewSet
+from apps.child.views import *
+from apps.todos.views import *
 
 router = DefaultRouter()
 router.register(
@@ -19,6 +20,11 @@ router.register(
     'answer',
     AnswerViewSet,
     basename='answer',
+)
+router.register(
+    'todo',
+    TodoViewSet,
+    basename='todo'
 )
 
 urlpatterns = router.urls
