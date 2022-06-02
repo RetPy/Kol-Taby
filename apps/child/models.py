@@ -97,6 +97,21 @@ class Answer(models.Model):
         null=True,
         blank=True,
     )
+    image_1 = models.ImageField(
+        upload_to='answer_images',
+        null=True,
+        blank=True,
+    )
+    image_2 = models.ImageField(
+        upload_to='answer_images',
+        null=True,
+        blank=True,
+    )
+    image_3 = models.ImageField(
+        upload_to='answer_images',
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Вопрос'

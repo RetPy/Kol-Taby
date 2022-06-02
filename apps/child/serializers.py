@@ -42,4 +42,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             'employee',
             'child',
             'quiz',
+            'image_1',
+            'image_2',
+            'image_3',
         ]
