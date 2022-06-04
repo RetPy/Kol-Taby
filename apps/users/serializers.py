@@ -4,7 +4,7 @@ from apps.users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True, allow_null=True, allow_blank=True)
 
     class Meta:
         model = User
@@ -22,6 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
+        if not validated_data['confirm_password']:
+            raise serializers.ValidationError('Need confirm password')
         if validated_data['password'] != validated_data['confirm_password']:
             raise serializers.ValidationError('Passwords are not same')
         user = User(
@@ -37,12 +39,12 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def update(self, instance, validated_data):
-        if validated_data['password'] != validated_data['confirm_password']:
-            raise serializers.ValidationError('Passwords are not same')
-        instance.set_password(validated_data['confirm_password'])
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     if validated_data['password'] != validated_data['confirm_password']:
+    #         raise serializers.ValidationError('Passwords are not same')
+    #     instance.set_password(validated_data['confirm_password'])
+    #     instance.save()
+    #     return instance
 
 
 class CurrentUserSerializer(serializers.Serializer):

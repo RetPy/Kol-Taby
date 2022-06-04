@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
         'list': [IsAdmin],
         'create': [IsAdmin],
         'retrieve': [IsAdmin | IsCurrentUser],
-        'update': [IsAdmin],
+        'update': [IsAdmin | IsCurrentUser],
         'delete': [IsAdmin],
     }
 

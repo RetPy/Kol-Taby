@@ -30,6 +30,8 @@ router.register(
 urlpatterns = router.urls
 urlpatterns += [
     path('users/<int:pk>/change_password/', UserChangePasswordView.as_view()),
+    path('users/<int:pk>/children/', get_user_child),
+    path('users/<int:pk>/todo/', get_user_todos),
     path('current-user/', CurrentUser.as_view()),
     path('check-alias/', CheckAliasAPIView.as_view()),
 ]

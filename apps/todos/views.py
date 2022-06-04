@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from apps.todos.models import Todo
 from apps.todos.serializers import TodoSerializer
@@ -25,3 +27,13 @@ class TodoViewSet(viewsets.ModelViewSet):
             return [permission() for permission in self.permission_classes_by_action[self.action]]
         except KeyError:
             return [permission() for permission in self.permission_classes]
+
+
+@api_view(['GET'])
+def get_user_todos(request, pk):
+    try:
+        childs = Todo.objects.filter(employee=pk)
+        serializer = TodoSerializer(childs, many=True)
+        return Response(serializer.data)
+    except:
+        return Response([])
