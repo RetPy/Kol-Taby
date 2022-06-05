@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
 from apps.todos.models import Todo
@@ -31,9 +32,12 @@ class TodoViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def get_user_todos(request, pk):
+    paginator = LimitOffsetPagination()
+    paginator.page_size = 1000000
     try:
-        childs = Todo.objects.filter(employee=pk)
-        serializer = TodoSerializer(childs, many=True)
-        return Response(serializer.data)
+        todos = Todo.objects.filter(employee=pk)
+        result = paginator.paginate_queryset(todos, request)
+        serializer = TodoSerializer(result, many=True)
+        return paginator.get_paginated_response(serializer.data)
     except:
-        return Response([])
+        return paginator.get_paginated_response([])

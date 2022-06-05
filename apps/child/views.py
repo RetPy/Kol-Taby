@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
@@ -28,9 +29,25 @@ class AnswerViewSet(ModelViewSet):
 
 @api_view(['GET'])
 def get_user_child(request, pk):
+    paginator = LimitOffsetPagination()
+    paginator.page_size = 1000000
     try:
-        childs = Child.objects.filter(employee=pk)
-        serializer = ChildSerializer(childs, many=True)
-        return Response(serializer.data)
+        children = Child.objects.filter(employee=pk)
+        result = paginator.paginate_queryset(children, request)
+        serializer = ChildSerializer(result, many=True)
+        return paginator.get_paginated_response(serializer.data)
     except:
-        return Response([])
+        return paginator.get_paginated_response([])
+
+
+@api_view(['GET'])
+def get_user_answers(request, pk):
+    paginator = LimitOffsetPagination()
+    paginator.page_size = 1000000
+    try:
+        answers = Answer.objects.filter(employee=pk)
+        result = paginator.paginate_queryset(answers, request)
+        serializer = ChildSerializer(result, many=True)
+        return paginator.get_paginated_response(serializer.data)
+    except:
+        return paginator.get_paginated_response([])
