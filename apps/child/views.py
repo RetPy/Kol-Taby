@@ -47,7 +47,7 @@ def get_user_answers(request, pk):
     try:
         answers = Answer.objects.filter(employee=pk)
         result = paginator.paginate_queryset(answers, request)
-        serializer = ChildSerializer(result, many=True)
+        serializer = AnswerSerializer(result, many=True)
         return paginator.get_paginated_response(serializer.data)
     except:
         return paginator.get_paginated_response([])
