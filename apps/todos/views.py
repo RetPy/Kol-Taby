@@ -35,7 +35,12 @@ def get_user_todos(request, pk):
     paginator = LimitOffsetPagination()
     paginator.page_size = 1000000
     try:
-        todos = Todo.objects.filter(employee=pk)
+        todos_1 = Todo.objects.filter(employee=pk, status='1')
+        todos_2 = Todo.objects.filter(employee=pk, status='2')
+        todos = []
+        todos.extend(todos_1)
+        todos.extend(todos_2)
+        print(todos)
         result = paginator.paginate_queryset(todos, request)
         serializer = TodoSerializer(result, many=True)
         return paginator.get_paginated_response(serializer.data)

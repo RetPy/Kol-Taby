@@ -30,6 +30,7 @@ class Todo(models.Model):
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
+        ordering = ['-id']
 
     def __str__(self):
         return str(self.title)
