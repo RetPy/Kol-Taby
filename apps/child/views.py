@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.child.models import Child, Answer
 from apps.users.models import User
-from apps.child.serializers import ChildSerializer, AnswerSerializer
+from apps.child.serializers import ChildSerializer, AnswerSerializer, UserAnswerSerializer
 
 
 class ChildViewSet(ModelViewSet):
@@ -47,7 +47,20 @@ def get_user_answers(request, pk):
     try:
         answers = Answer.objects.filter(employee=pk)
         result = paginator.paginate_queryset(answers, request)
-        serializer = AnswerSerializer(result, many=True)
+        serializer = UserAnswerSerializer(result, many=True)
+        return paginator.get_paginated_response(serializer.data)
+    except:
+        return paginator.get_paginated_response([])
+
+
+@api_view(['GET'])
+def get_user_last_answers(request, pk):
+    paginator = LimitOffsetPagination()
+    paginator.page_size = 1000000
+    try:
+        last_five_answers = Answer.objects.filter(employee=pk).order_by('-id')[:5]
+        result = paginator.paginate_queryset(last_five_answers, request)
+        serializer = UserAnswerSerializer(result, many=True)
         return paginator.get_paginated_response(serializer.data)
     except:
         return paginator.get_paginated_response([])

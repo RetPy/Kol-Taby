@@ -46,3 +46,25 @@ class AnswerSerializer(serializers.ModelSerializer):
             'image_2',
             'image_3',
         ]
+
+
+class UserAnswerSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(
+        read_only=True
+    )
+    child = ChildSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = Answer
+        fields = [
+            'id',
+            'date',
+            'employee',
+            'child',
+            'quiz',
+            'image_1',
+            'image_2',
+            'image_3',
+        ]
