@@ -41,3 +41,16 @@ def get_user_todos(request, pk):
         return paginator.get_paginated_response(serializer.data)
     except:
         return paginator.get_paginated_response([])
+
+
+@api_view(['GET'])
+def get_user_last_todos(request, pk):
+    paginator = LimitOffsetPagination()
+    paginator.page_size = 1000000
+    try:
+        last_five_todos = Todo.objects.filter(employee=pk).order_by('-id')[:5]
+        result = paginator.paginate_queryset(last_five_todos, request)
+        serializer = TodoSerializer(result, many=True)
+        return paginator.get_paginated_response(serializer.data)
+    except:
+        return paginator.get_paginated_response([])

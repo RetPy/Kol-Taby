@@ -33,6 +33,7 @@ urlpatterns += [
     path('users/<int:pk>/children/', get_user_child),
     path('users/<int:pk>/answers/', get_user_answers),
     path('users/<int:pk>/todo/', get_user_todos),
+    path('users/<int:pk>/todo/last/', get_user_last_todos),
     path('current-user/', CurrentUser.as_view()),
     path('check-alias/', CheckAliasAPIView.as_view()),
 ]
