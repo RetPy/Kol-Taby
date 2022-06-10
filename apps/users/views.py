@@ -28,6 +28,12 @@ class UserViewSet(viewsets.ModelViewSet):
             return [permission() for permission in self.permission_classes]
 
 
+class AdminViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.filter(is_staff=True)
+    serializer_class = UserSerializer
+    permission_classes = [IsAdmin]
+
+
 class CurrentUser(generics.GenericAPIView):
     serializer_class = CurrentUserSerializer
 

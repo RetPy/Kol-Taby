@@ -12,6 +12,11 @@ router.register(
     basename='users',
 )
 router.register(
+    'administration',
+    AdminViewSet,
+    'administration'
+)
+router.register(
     'child',
     ChildViewSet,
     basename='child',
