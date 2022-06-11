@@ -1,12 +1,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
+from utils.permissions import IsAuthenticated, IsAdmin
+from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.child.models import Child, Answer
-from apps.users.models import User
 from apps.child.serializers import ChildSerializer, AnswerSerializer, UserAnswerSerializer
 
 
@@ -25,6 +24,12 @@ class AnswerViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(employee=self.request.user)
+
+
+class AnswerLastListView(ListAPIView):
+    queryset = Answer.objects.all().order_by('-id')[:5]
+    serializer_class = AnswerSerializer
+    permission_classes = [IsAdmin]
 
 
 @api_view(['GET'])

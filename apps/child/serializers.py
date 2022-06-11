@@ -33,6 +33,9 @@ class AnswerSerializer(serializers.ModelSerializer):
     employee = serializers.CharField(
         read_only=True
     )
+    child = ChildSerializer(
+        read_only=True
+    )
 
     class Meta:
         model = Answer
