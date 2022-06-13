@@ -35,7 +35,7 @@ router.register(
 urlpatterns = router.urls
 urlpatterns += [
     path('users/<int:pk>/change_password/', UserChangePasswordView.as_view()),
-    path('administration/<int:pk>/change_password/', UserChangePasswordView.as_view()),
+    path('administration/<int:pk>/change_password/', AdminChangePasswordView.as_view()),
     path('users/<int:pk>/children/', get_user_child),
     path('users/<int:pk>/answers/', get_user_answers),
     path('users/<int:pk>/answers/last/', get_user_last_answers),
