@@ -81,3 +81,9 @@ class UserChangePasswordView(generics.UpdateAPIView):
     queryset = User.objects.filter(is_staff=False)
     serializer_class = ChangePasswordSerializer
     permission_classes = [IsAdmin]
+
+
+class AdminChangePasswordView(generics.UpdateAPIView):
+    queryset = User.objects.filter(is_staff=True)
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAdmin]
