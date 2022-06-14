@@ -2,8 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 from utils.permissions import IsAuthenticated, IsAdmin
-from rest_framework.generics import ListAPIView, CreateAPIView, GenericAPIView
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import ListAPIView, CreateAPIView
 
 from apps.child.models import Child, Answer
 from apps.child.serializers import ChildSerializer, AnswerSerializer, UserAnswerSerializer
@@ -13,13 +12,13 @@ class ChildViewSet(ModelViewSet):
     queryset = Child.objects.all()
     serializer_class = ChildSerializer
     permission_classes = [IsAuthenticated]
+    search_fields = ['first_name', 'last_name', 'patronymic']
 
 
 class AnswerViewSet(ModelViewSet):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
     filterset_fields = ['employee', 'child', 'date']
 
 
