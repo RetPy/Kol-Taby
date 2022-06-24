@@ -1,3 +1,5 @@
+
+
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
@@ -40,7 +42,6 @@ def get_user_todos(request, pk):
         todos = []
         todos.extend(todos_1)
         todos.extend(todos_2)
-        print(todos)
         result = paginator.paginate_queryset(todos, request)
         serializer = TodoSerializer(result, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -53,7 +54,11 @@ def get_user_last_todos(request, pk):
     paginator = LimitOffsetPagination()
     paginator.page_size = 1000000
     try:
-        last_five_todos = Todo.objects.filter(employee=pk).order_by('-id')[:5]
+        todos_without_1 = Todo.objects.filter(employee=pk, status='1').order_by('-id')[:5]
+        todos_without_2 = Todo.objects.filter(employee=pk, status='2').order_by('-id')[:5]
+        last_five_todos = []
+        last_five_todos.extend(todos_without_1)
+        last_five_todos.extend(todos_without_2)
         result = paginator.paginate_queryset(last_five_todos, request)
         serializer = TodoSerializer(result, many=True)
         return paginator.get_paginated_response(serializer.data)

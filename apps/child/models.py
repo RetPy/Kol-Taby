@@ -44,20 +44,12 @@ class Child(models.Model):
     parents_phone_number = models.CharField(
         max_length=15,
     )
-    parents_email = models.EmailField(
-        unique=True,
-    )
     address = models.CharField(
         max_length=100,
     )
     diagnosis = models.CharField(
         max_length=150,
     )
-    visit_weekday = models.CharField(
-        max_length=15,
-        choices=WEEKDAY_CHOICE,
-    )
-    visit_time = models.TimeField()
     exercises = models.TextField()
     employee = models.ForeignKey(
         User,
