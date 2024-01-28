@@ -4,15 +4,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-zqi-8u)3t01ronk0bl4q2ohejr=lsxk=w_%8d@5y1@2bub+%v('
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '2.57.185.172',
-    'koltaby.tk',
-]
+ALLOWED_HOSTS = os.environ['DJANGO_ALLOWED_HOSTS'].split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,11 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://koltaby.tk',
-    'https://koltaby.netlify.app',
-]
+CORS_ALLOWED_ORIGINS = os.environ['CORS_ALLOWED_ORIGINS'].split(',')
 
 ROOT_URLCONF = 'core.urls'
 
@@ -81,11 +73,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'koltaby',
-        'USER': 'postgres',
-        'PASSWORD': 'helloworld',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ['POSTGRES_NAME'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ['POSTGRES_HOST'],
+        'PORT': os.environ['POSTGRES_HOST'],
     }
 }
 
